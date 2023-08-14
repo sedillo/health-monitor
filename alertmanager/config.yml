@@ -1,0 +1,8 @@
+route:
+  group_by: ['alertname']
+  repeat_interval: 1h
+  receiver: 'reprovision-container'
+receivers:
+- name: 'reprovision-container'
+  webhook_configs:
+    - url: 'http://webhooks:5000/reprovision'

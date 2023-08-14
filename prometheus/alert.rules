@@ -1,0 +1,18 @@
+# alert.rules
+groups:
+- name: container_alerts
+  rules:
+  - alert: ContainerDown
+    expr: absent(container_last_seen{name="target-1"})
+    for: 1m
+    labels:
+      severity: critical
+    annotations:
+      summary: "Docker container is down"
+  - alert: ContainerDown2
+    expr: container_last_seen{name="target-1"} > 60
+    for: 1m
+    labels:
+      severity: critical
+    annotations:
+      summary: "Docker container is down"

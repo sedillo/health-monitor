@@ -1,0 +1,8 @@
+---
+- name: Create Docker Container with Ubuntu
+  hosts: localhost
+  gather_facts: no
+
+  tasks:
+    - name: Create Docker container
+      command: docker run -d --rm --name target-1 ubuntu:latest sleep infinity

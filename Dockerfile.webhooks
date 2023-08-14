@@ -1,0 +1,45 @@
+# Use an official Python runtime as the parent image
+FROM python:3.8-slim-buster
+
+# Install dependencies
+RUN apt-get update -y && \
+    apt-get install -y \
+       ansible \
+       apt-transport-https \
+       ca-certificates \
+       curl \
+       gnupg-agent \
+       software-properties-common
+
+# Add Docker’s official GPG key and repository
+RUN curl -fsSL https://download.docker.com/linux/debian/gpg | apt-key add - \
+    && add-apt-repository \
+       "deb [arch=amd64] https://download.docker.com/linux/debian \
+       $(lsb_release -cs) \
+       stable"
+
+# Install Docker CLI
+RUN apt-get update && apt-get install -y docker-ce-cli
+
+
+# Install ansible
+RUN apt-get update && apt-get install -y ansible
+
+# Install Flask
+RUN pip install Flask
+
+# Make port 5000 available to the world outside this container
+EXPOSE 5000
+
+# Set the working directory
+RUN ln -s /usr/bin/python3 /usr/bin/python
+
+# Set the working directory
+WORKDIR /app
+
+# Define environment variable
+ENV FLASK_APP app.py
+
+# Run app.py when the container launches
+CMD ["flask", "run", "--host=0.0.0.0"]
+
